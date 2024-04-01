@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "483757394912",
+    "firebase_url": "https://grupo5-3f0d4-default-rtdb.firebaseio.com",
+    "project_id": "grupo5-3f0d4",
+    "storage_bucket": "grupo5-3f0d4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:483757394912:android:8ba2101749e30481f3b985",
+        "android_client_info": {
+          "package_name": "com.example.firebasegrupo5"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyColbj9wU4TTJSCo7v8unTOjWWQVkCHXtQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

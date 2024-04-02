@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Person;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,8 +50,12 @@ public class Activitylistar extends AppCompatActivity {
         inicializarFirabase();
         listarDatos();
 
+        btnEliminar = findViewById(R.id.btnEliminar);
+
 
         btnVerImagen = (Button) findViewById(R.id.btnVerFoto);
+
+
         btnVerImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +86,30 @@ public class Activitylistar extends AppCompatActivity {
                 view.setBackgroundResource(com.google.android.material.R.color.material_dynamic_neutral90);
             }
         });
+
+        btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (PersonaSelected != null) {
+                    // Eliminar la persona seleccionada de la base de datos
+                    databaseReference.child("Personas").child(PersonaSelected.getId()).removeValue()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(Activitylistar.this, "Registro eliminado exitosamente", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(Activitylistar.this, "Error al eliminar el registro", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                } else {
+                    Toast.makeText(Activitylistar.this, "Seleccione una persona para eliminar", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void listarDatos(){
@@ -106,6 +137,12 @@ public class Activitylistar extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+
+
     private void inicializarFirabase(){
         FirebaseApp.initializeApp(this);
         firebaseDatabase = FirebaseDatabase.getInstance();

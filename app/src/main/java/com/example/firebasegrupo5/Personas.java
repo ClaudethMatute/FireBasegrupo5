@@ -21,10 +21,6 @@ public class Personas {
         this.fechanac = fechanac;
         this.foto = foto;
     }
-
-    public Personas(String id, String nombres, String apellidos, String correo, String fechaNac) {
-    }
-
     // Getters y Setters
     public String getId() {
         return id;

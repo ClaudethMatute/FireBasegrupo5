@@ -29,9 +29,9 @@ import java.util.UUID;
 
 
 public class MainActivity extends AppCompatActivity {
-    EditText editTextNombres, editTextApellidos, editTextCorreo, editTextFechaNac ;
+     EditText editTextNombres, editTextApellidos, editTextCorreo, editTextFechaNac ;
     ImageView imageView;
-    Button buttonAgregar, buttonActualizar, buttonEliminar, buttonObtener,btntakefoto;
+     Button buttonAgregar, buttonActualizar, buttonEliminar, buttonObtener,btntakefoto;
     static final int  peticion_foto = 101;
     static final int ACCESS_CAMERA =  201;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    //AGREGADOS NUEVOS
+//AGREGADOS NUEVOS
     private void PermisosCamara() {
         if(ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
         {
@@ -157,3 +157,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+
+

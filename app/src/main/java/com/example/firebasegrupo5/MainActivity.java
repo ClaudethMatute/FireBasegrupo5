@@ -4,14 +4,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
@@ -28,10 +25,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
 
 
@@ -140,8 +133,29 @@ public class MainActivity extends AppCompatActivity {
         persona.setFechanac(editTextFechaNac.getText().toString().trim());
         persona.setFoto(imagenBase64);
 
-        databaseReference.child("Personas").child(persona.getId()).setValue(persona);
+
+        databaseReference.child("Personas").child(persona.getId()).setValue(persona, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                if (error == null) {
+                    // Limpia los campos y muestra el aviso
+                    limpiarCampos();
+                    Toast.makeText(MainActivity.this, "Persona agregada correctamente", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Error al agregar persona", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
+
+    private void limpiarCampos() {
+        editTextNombres.setText("");
+        editTextApellidos.setText("");
+        editTextCorreo.setText("");
+        editTextFechaNac.setText("");
+        imageView.setImageBitmap(null);
+    }
+
 }
 
 

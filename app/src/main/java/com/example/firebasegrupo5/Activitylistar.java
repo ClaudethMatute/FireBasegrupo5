@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -49,13 +50,10 @@ public class Activitylistar extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         inicializarFirabase();
         listarDatos();
-
         btnEliminar = findViewById(R.id.btnEliminar);
         btnEditar = findViewById(R.id.btnEditar);
 
         btnVerImagen = (Button) findViewById(R.id.btnVerFoto);
-
-
         btnVerImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,9 +79,10 @@ public class Activitylistar extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PersonaSelected = listPersons.get(position);
                 for (int i = 0; i < parent.getChildCount(); i++) {
-                    parent.getChildAt(i).setBackgroundResource(com.google.android.material.R.color.m3_ref_palette_dynamic_neutral80);
+                    parent.getChildAt(i).setBackgroundColor(Color.WHITE);
                 }
-                view.setBackgroundResource(com.google.android.material.R.color.material_dynamic_neutral90);
+                //view.setBackgroundResource(com.google.android.material.R.color.material_dynamic_neutral90);
+                view.setBackgroundColor(Color.parseColor("#80ADD8E6"));
             }
         });
 
@@ -116,10 +115,10 @@ public class Activitylistar extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (PersonaSelected != null) {
-                    // Eliminar la persona seleccionada de la base de datos
+                    // Editar la persona seleccionada de la base de datos
                     EnviarInfoActualizar();
                 } else {
-                    Toast.makeText(Activitylistar.this, "Seleccione una persona para eliminar", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activitylistar.this, "Seleccione una persona para editar", Toast.LENGTH_SHORT).show();
                 }
             }
         });

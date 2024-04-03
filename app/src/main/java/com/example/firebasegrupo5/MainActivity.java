@@ -31,11 +31,11 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity {
      EditText editTextNombres, editTextApellidos, editTextCorreo, editTextFechaNac ;
     ImageView imageView;
-     Button buttonAgregar, buttonActualizar, buttonEliminar, buttonObtener,btntakefoto;
+     Button buttonAgregar, buttonObtener,btntakefoto;
     static final int  peticion_foto = 101;
     static final int ACCESS_CAMERA =  201;
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
     String imagenBase64;
+    String idPersona;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     @Override
@@ -52,16 +52,37 @@ public class MainActivity extends AppCompatActivity {
         btntakefoto = (Button) findViewById(R.id.btntakefoto);
 
         buttonAgregar = (Button) findViewById(R.id.buttonAgregar);
-        buttonActualizar =(Button)  findViewById(R.id.buttonActualizar);
-        buttonEliminar =(Button)  findViewById(R.id.buttonEliminar);
         buttonObtener = (Button) findViewById(R.id.buttonObtener);
 
+        //**********EDITAR***********//
+        Intent intent = getIntent();
+        if(intent.getExtras() != null){
+            idPersona = intent.getStringExtra("Id");
+            String apellidosVal = intent.getStringExtra("Apellidos");
+            String nombreVal = intent.getStringExtra("Nombres");
+            String fechaNacVal = intent.getStringExtra("Fechanac");
+            String correoVal = intent.getStringExtra("Correo");
+            String imagenBase64 = intent.getStringExtra("Foto");
+
+            editTextNombres.setText(nombreVal);
+            editTextApellidos.setText(apellidosVal);
+            editTextCorreo.setText(correoVal);
+            editTextFechaNac.setText(fechaNacVal);
+            /*if(imagenBase64 != null){
+                VerImagen(imagenBase64);
+            }*/
+        }
 
         // Agregar listener al botón Agregar
         buttonAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                agregarPersona();
+                if(intent.getExtras() != null){
+                    EditarRegistro();
+                }else{
+                    agregarPersona();
+                }
+
             }
         });
         btntakefoto.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +164,30 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Persona agregada correctamente", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(MainActivity.this, "Error al agregar persona", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void EditarRegistro(){
+        Personas persona = new Personas();
+        persona.setId(idPersona);
+        persona.setNombres(editTextNombres.getText().toString().trim());
+        persona.setApellidos(editTextApellidos.getText().toString().trim());
+        persona.setCorreo(editTextCorreo.getText().toString().trim());
+        persona.setFechanac(editTextFechaNac.getText().toString().trim());
+        persona.setFoto(imagenBase64);
+
+
+        databaseReference.child("Personas").child(persona.getId()).setValue(persona, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                if (error == null) {
+                    // Limpia los campos y muestra el aviso
+                    limpiarCampos();
+                    Toast.makeText(MainActivity.this, "Persona Editada correctamente", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Error al editar persona", Toast.LENGTH_SHORT).show();
                 }
             }
         });

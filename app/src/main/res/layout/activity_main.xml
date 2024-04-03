@@ -76,15 +76,10 @@
 
             <Button
                 android:id="@+id/buttonAgregar"
-                android:layout_width="match_parent"
+                android:layout_width="163dp"
                 android:layout_height="wrap_content"
-                android:text="Agregar" />
-
-            <Button
-                android:id="@+id/buttonActualizar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Actualizar" />
+                android:backgroundTint="#009688"
+                android:text="Aceptar" />
 
         </LinearLayout>
 
@@ -96,16 +91,11 @@
             android:layout_alignParentRight="true">
 
             <Button
-                android:id="@+id/buttonEliminar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Eliminar" />
-
-            <Button
                 android:id="@+id/buttonObtener"
-                android:layout_width="wrap_content"
+                android:layout_width="138dp"
                 android:layout_height="wrap_content"
-                android:text="Listar Datos" />
+                android:backgroundTint="#3F51B5"
+                android:text="Listado Datos" />
 
         </LinearLayout>
 

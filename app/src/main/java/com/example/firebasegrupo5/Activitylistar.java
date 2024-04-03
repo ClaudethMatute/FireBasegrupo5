@@ -39,7 +39,7 @@ public class Activitylistar extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-    Button btnVerImagen, btnEliminar;
+    Button btnVerImagen, btnEliminar, btnEditar;
     Personas PersonaSelected;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class Activitylistar extends AppCompatActivity {
         listarDatos();
 
         btnEliminar = findViewById(R.id.btnEliminar);
-
+        btnEditar = findViewById(R.id.btnEditar);
 
         btnVerImagen = (Button) findViewById(R.id.btnVerFoto);
 
@@ -96,6 +96,7 @@ public class Activitylistar extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
+                                    listarDatos();
                                     Toast.makeText(Activitylistar.this, "Registro eliminado exitosamente", Toast.LENGTH_SHORT).show();
                                 }
                             })
@@ -105,6 +106,18 @@ public class Activitylistar extends AppCompatActivity {
                                     Toast.makeText(Activitylistar.this, "Error al eliminar el registro", Toast.LENGTH_SHORT).show();
                                 }
                             });
+                } else {
+                    Toast.makeText(Activitylistar.this, "Seleccione una persona para eliminar", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btnEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (PersonaSelected != null) {
+                    // Eliminar la persona seleccionada de la base de datos
+                    EnviarInfoActualizar();
                 } else {
                     Toast.makeText(Activitylistar.this, "Seleccione una persona para eliminar", Toast.LENGTH_SHORT).show();
                 }
@@ -137,11 +150,17 @@ public class Activitylistar extends AppCompatActivity {
             }
         });
     }
+    private void EnviarInfoActualizar(){
+        Intent intent = new Intent(Activitylistar.this, MainActivity.class);
 
-
-
-
-
+        intent.putExtra("Id", PersonaSelected.getId().toString());
+        intent.putExtra("Nombres", PersonaSelected.getNombres());
+        intent.putExtra("Apellidos", PersonaSelected.getApellidos());
+        intent.putExtra("Correo", PersonaSelected.getCorreo());
+        intent.putExtra("Fechanac", PersonaSelected.getFechanac());
+        intent.putExtra("Foto", PersonaSelected.getFoto());
+        startActivity(intent);
+    }
 
     private void inicializarFirabase(){
         FirebaseApp.initializeApp(this);
